@@ -51,7 +51,7 @@ namespace TrackHeightPlane
             _meshFilter = _heightMarkerGo.AddComponent<MeshFilter>();
             var meshRenderer = _heightMarkerGo.AddComponent<MeshRenderer>();
             meshRenderer.sharedMaterial = GetMaterialPlane();
-            _heightMarkerGo.transform.SetParent(transform);
+//            _heightMarkerGo.transform.SetParent(transform);
 
         }
 
@@ -69,8 +69,8 @@ namespace TrackHeightPlane
                 if (Time.time - _update > .5f)
                 {
 
-                    _heightMarkerGo.transform.localPosition = Vector3.zero;
-                    _heightMarkerGo.transform.localRotation = Quaternion.identity;
+                    _heightMarkerGo.transform.position = Vector3.zero;
+                    _heightMarkerGo.transform.rotation = Quaternion.identity;
                     
                     var verticies = new List<Vector3>();
                     var triangles = new List<int>();
@@ -88,10 +88,10 @@ namespace TrackHeightPlane
                     var magnitude = (position - vector).magnitude;
 
 
-                    verticies.Add(transform.InverseTransformPoint(position));
+                    verticies.Add(position);
                     verticies.Add(
-                        transform.InverseTransformPoint(position + Vector3.down * magnitude *
-                                                        Mathf.Sign(position.y - vector.y)));
+                        position + Vector3.down * magnitude *
+                                                        Mathf.Sign(position.y - vector.y));
 
                     uvs.Add(new Vector2(0, magnitude));
                     uvs.Add(new Vector2(0, 0));
@@ -111,10 +111,8 @@ namespace TrackHeightPlane
                         magnitude = (position - vector).magnitude;
 
 
-                        verticies.Add(transform.InverseTransformPoint(position));
-                        verticies.Add(
-                            transform.InverseTransformPoint(
-                                position + Vector3.down * magnitude * Mathf.Sign(position.y - vector.y)));
+                        verticies.Add(position);
+                        verticies.Add(position + Vector3.down * magnitude * Mathf.Sign(position.y - vector.y));
 
                         xoffset += Vector3.Distance(previous, position);
                         uvs.Add(new Vector2(xoffset, vector.y + magnitude));
